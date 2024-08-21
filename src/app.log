@@ -1,0 +1,20 @@
+2024-08-21 00:57:52,878 - INFO - Search Phrase: artificial intelligence
+2024-08-21 00:57:52,879 - INFO - Section: all
+2024-08-21 00:57:53,752 - INFO - Downloaded webdriver to: /home/murilo/.robocorp/webdrivers/.wdm/drivers/chromedriver/linux64/127.0.6533.119/chromedriver-linux64/chromedriver
+2024-08-21 00:57:53,777 - INFO - Webdriver version taken into use: ChromeDriver 127.0.6533.119 (bdef6783a05f0b3f885591e7d2c7b2aec1a89dea-refs/branch-heads/6533@{#1999})
+
+2024-08-21 00:57:53,778 - INFO - Creating an instance of the Chrome WebDriver.
+2024-08-21 00:57:55,323 - INFO - Created Chrome browser (version 127.0.6533) with arguments: --start-maximized --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox
+2024-08-21 00:57:55,324 - INFO - <p>Attempted combinations:</p><div class="doc"><table><tr><th>Browser</th><th>Download</th><th>Error</th></tr><tr><td>Chrome</td><td>False</td><td>Message: Webdriver executable 'chromedriver' is not in PATH (with disabled Selenium Manager)
+</td></tr><tr><td>Chrome</td><td>True</td><td></td></tr></table></div>
+2024-08-21 00:57:55,324 - INFO - Opening url 'https://www.reuters.com/site-search/?query=artificial+intelligence&section=all&offset=0&date=any_time'
+2024-08-21 00:58:00,139 - INFO - Offset range: 255
+2024-08-21 00:58:00,589 - INFO - Creating a new HTTP session
+2024-08-21 00:58:00,589 - INFO - Creating Session using : alias=rpasession_alias.httpscloudfront-us-east-2.images.arcpublishing.com, url=https://cloudfront-us-east-2.images.arcpublishing.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 
+2024-08-21 00:58:25,356 - INFO - Using already existing HTTP session
+2024-08-21 00:58:40,463 - INFO - Using already existing HTTP session
+2024-08-21 00:59:57,512 - INFO - Using already existing HTTP session
+2024-08-21 01:00:10,294 - INFO - Using already existing HTTP session
+2024-08-21 01:00:25,414 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7834bde97fa0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/908767e300823425de597d03cb569a5d
+2024-08-21 01:00:25,416 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7834bdf69160>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/908767e300823425de597d03cb569a5d
+2024-08-21 01:00:25,418 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7834bdf69af0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/908767e300823425de597d03cb569a5d
