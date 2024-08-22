@@ -11,8 +11,8 @@ class NewsArticle:
     date: datetime
     url: str
     image_path: str
+    selected_section: str
     extracted_section: Optional[str] = field(init=False)
-    selected_section: Optional[str] = field(init=False)
     description: Optional[str] = field(init=False)
     count_phrases: Optional[int] = field(init=False)
     contains_money: Optional[bool] = field(init=False)
