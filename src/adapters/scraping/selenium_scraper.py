@@ -1,7 +1,7 @@
 import logging
 from enum import Enum
 from pathlib import Path
-from typing import List, Literal
+from typing import List, Literal, Optional
 from uuid import uuid4
 
 from robocorp.tasks import get_output_dir
@@ -46,6 +46,7 @@ class SeleniumScraper(Scraper):
     def get_news_datails(self, news) -> NewsArticle:
         article_id = str(uuid4())
         news_title = self.browser.get_webelement(f'css:{Elements.NEWS_TITLE.value}', news)
+        print(f'Processing: {news_title}')
 
         news_clickable = news.find_element(By.CSS_SELECTOR, Elements.LINK.value)
         news_url: str = news_clickable.get_attribute('href')
@@ -74,15 +75,16 @@ class SeleniumScraper(Scraper):
             image_path=str(image_file),
             extracted_section=article_section
         )
+        return article
 
 
     def scrape_news(self, search_phrase: str,
                     section: Literal['all', 'world', 'business', 'legal', 
                                      'markets', 'breakingviews', 'technology', 
-                                     'sustainability', 'science', 'sports', 'lifestyle', ] = 'all') -> List[NewsArticle] | None:
+                                     'sustainability', 'science', 'sports', 'lifestyle', ] = 'all') -> Optional[List[NewsArticle]]:
         
-        logging.info(f'Search Phrase: {search_phrase}')
-        logging.info(f'Section: {section}')
+        print(f'Search Phrase: {search_phrase}')
+        print(f'Section: {section}')
 
 
         query =  '+'.join(search_phrase.split())
@@ -107,7 +109,7 @@ class SeleniumScraper(Scraper):
         max_offset = int(offset_element.text.split()[-1])
         offsets = range(0, max_offset, 20)
 
-        logging.info(f'Offset range: {max_offset//20}')
+        print(f'Offset range: {max_offset//20}')
 
         news_articles = []
 
@@ -116,6 +118,7 @@ class SeleniumScraper(Scraper):
 
             for news in news_list:
                 article = self.get_news_datails(news=news)
+                article.selected_section = section
                 
                 news_articles.append(article)
             
