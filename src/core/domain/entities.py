@@ -1,18 +1,17 @@
 from typing import Optional
 from dataclasses import dataclass, field
-from datetime import datetime
-from PIL.Image import Image
+from datetime import date
 
 
 @dataclass
 class NewsArticle:
     article_id: str
     title: str
-    date: datetime
+    date: date
     url: str
     image_path: str
     selected_section: str
-    extracted_section: Optional[str] = field(init=False)
-    description: Optional[str] = field(init=False)
-    count_phrases: Optional[int] = field(init=False)
-    contains_money: Optional[bool] = field(init=False)
+    extracted_section: Optional[str] = field(default_factory=str)
+    description: Optional[str] = field(default_factory=str)
+    count_phrases: Optional[int] = field(default_factory=int)
+    contains_money: Optional[bool] = field(default_factory=bool)
