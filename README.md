@@ -1,6 +1,6 @@
-# Reuters Scrape: Python - Minimal
+# Reuters Scrape
 
-This project for scraping news from the Reuters website was built using pure Python along with the Robocorp library, RPaframework, and undetected-chrome. 
+This project for scraping news from the Reuters website was built using pure Python along with the Robocorp library, RPaframework, and stealth-selenium. 
 
 The application follows the principles of [Hexagonal Architecture](https://scalastic.io/en/hexagonal-architecture/#:~:text=Hexagonal%20architecture%20is%20an%20architectural,communicate%2C%20using%20ports%20and%20adapters.) and clean code, ensuring that in the future, scraping engines can be modified without changing the business rules. 
 
@@ -31,14 +31,14 @@ All dependencies are listed in the conda.yaml file, which serves the same purpos
 ## Features:
 
 - Black
-- Undetected Chrome
+- Stealth Selenium
 - Pandas
 - RPAFramework
 - Robocorp
 
 ## Known Bugs:
 
-- The Reuters page has a CAPTCHA. While undetected-chrome helps bypass it, extensive testing is still needed to ensure reliability.
+- The Reuters page has a CAPTCHA. While stealth-selenium helps bypass it, extensive testing is still needed to ensure reliability.
 - Downloading images uses the HTTP module from the RPA library, but it tends to be very slow.
 - Continuous integration and testing need to be implemented to ensure code integrity.
 - Needs implement only compressed file to save all images, like a `image_\<scrape_id>.tar

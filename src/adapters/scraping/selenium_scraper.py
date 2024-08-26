@@ -3,7 +3,6 @@ from datetime import date, datetime, timedelta
 from enum import Enum
 from typing import List, Optional
 from uuid import uuid4
-import undetected_chromedriver as uc
 from robocorp.tasks import get_output_dir
 from RPA.Browser.Selenium import ElementNotFound, Selenium
 from RPA.HTTP import HTTP
@@ -14,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from core.domain.entities import NewsArticle
 from core.domain.interfaces import Scraper
+from selenium_stealth import stealth
 
 
 class Elements(Enum):
@@ -97,9 +97,23 @@ class SeleniumScraper(Scraper):
             headless=False,
             options={
                 'capabilities': {
-                    "pageLoadStrategy": "eager"
+                    "pageLoadStrategy": "eager",
+                    "goog:chromeOptions": {
+                        "excludeSwitches": ["enable-automation"],
+                        "useAutomationExtension": False
+                    }
                 }
             }
+        )
+        stealth(
+            self.browser.driver,
+            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.105 Safari/537.36',
+            languages=["en-US", "en"],
+            vendor="Google Inc.",
+            platform="Win32",
+            webgl_vendor="Intel Inc.",
+            renderer="Intel Iris OpenGL Engine",
+            fix_hairline=True,
         )
         # chrome_options = Options()
 
