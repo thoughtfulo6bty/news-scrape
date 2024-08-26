@@ -56,7 +56,7 @@ def robot_scrape_news():
     """
     Function to scrape news with parameters using robocorp decorator
     """
-     payload = json.loads(inputs.current.payload)
+    payload = json.loads(inputs.current.payload)
 
     # mocked payload
     # payload = {'search_phrase': 'gemini', 'date_option': 0, 'section': 'all'}
