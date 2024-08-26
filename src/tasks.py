@@ -1,9 +1,10 @@
+import json
 import logging
 from os import getenv
 from robocorp.tasks import get_output_dir, task
+from robocorp.workitems import inputs
 from core.application.scrape_news import ScrapeNews
 from core.domain.interfaces import Respository, Scraper
-
 
 logging.basicConfig(
     filename=f"{get_output_dir()}/app.log",
@@ -55,9 +56,14 @@ def robot_scrape_news():
     """
     Function to scrape news with parameters using robocorp decorator
     """
-    search_phrase = getenv('SEARCH_PHRASE').lower()
-    date_option = int(getenv('DATE_OPTION', '0'))
-    section = getenv('SECTION', 'all')
+    #  payload = json.loads(inputs.current.payload)
+
+    # mocked payload
+    payload = {'search_phrase': 'gemini', 'date_option': 0, 'section': 'all'}
+
+    search_phrase = payload['search_phrase'].lower()
+    date_option = int(payload['date_option'])
+    section = payload['section']
 
     if not search_phrase:
         logging.error('Search phrase not defined. Breaking scrape.')

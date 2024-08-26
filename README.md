@@ -27,3 +27,18 @@ The application's goal is to scrape news from the Reuters website and store spec
 
 All dependencies are listed in the conda.yaml file, which serves the same purpose as a requirements.txt file
 
+
+## Features:
+
+- Black
+- Undetected Chrome
+- Pandas
+- RPAFramework
+- Robocorp
+
+## Known Bugs:
+
+- The Reuters page has a CAPTCHA. While undetected-chrome helps bypass it, extensive testing is still needed to ensure reliability.
+- Downloading images uses the HTTP module from the RPA library, but it tends to be very slow.
+- Continuous integration and testing need to be implemented to ensure code integrity.
+- Needs implement only compressed file to save all images, like a `image_\<scrape_id>.tar

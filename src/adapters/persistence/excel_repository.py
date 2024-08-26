@@ -24,7 +24,7 @@ class ExcelRepository(Respository):
             None
         """
         filename = Path(f"news_scrape_result_{scrape_id}").with_suffix(".xlsx")
-        output_path: Path = self.output_dir / f"results_{scrape_id}" / filename
+        output_path: Path = self.output_dir / filename
 
         news_list_dict = list(map(asdict, news_list))
         df = DataFrame(news_list_dict)

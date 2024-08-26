@@ -51,7 +51,6 @@ class SeleniumScraper(Scraper):
         self.browser = Selenium()
         self._http = None  # using another lib, like requests or urllib, because HTTP RPA slow download image
 
-
     @property
     def http(self):
         """
@@ -92,16 +91,15 @@ class SeleniumScraper(Scraper):
         url = self.base_url.format(query, section, offset)
 
         # exploring captcha breaker
-        self.browser.open_available_browser(
-            url=url,
-            maximized=True,
-            headless=False,
-            options={
-                'capabilities': {
-                    "pageLoadStrategy": "eager"
-                }
-            }
-        )
+        chrome_options = Options()
+        chrome_options.page_load_strategy = "eager"
+        driver = uc.Chrome(options=chrome_options)
+
+        browser_alias = "undetected_chrome"
+        self.browser.register_driver(driver=driver, alias=browser_alias)
+        self.browser.switch_browser(browser_alias)
+        self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
+        self.browser.go_to(url=url)
 
         # exploring explict waits
         self.wait = WebDriverWait(self.browser.driver, 10)
@@ -176,9 +174,7 @@ class SeleniumScraper(Scraper):
                     article_section = None
 
                 logging.info(f"Saving thumbnail: {news_title}")
-
-                image_path = get_output_dir() / f"results_{scrape_id}" / "thumbnails"
-                image_path.mkdir(exist_ok=True, parents=True)
+                image_path = get_output_dir()
 
                 try:
                     image_element = news.find_element(By.CSS_SELECTOR, Elements.IMAGE.value)
