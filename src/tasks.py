@@ -55,7 +55,7 @@ def robot_scrape_news():
     """
     Function to scrape news with parameters using robocorp decorator
     """
-    search_phrase = getenv('SEARCH_PHRASE')
+    search_phrase = getenv('SEARCH_PHRASE').lower()
     date_option = int(getenv('DATE_OPTION', '0'))
     section = getenv('SECTION', 'all')
 
