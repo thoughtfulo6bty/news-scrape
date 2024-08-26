@@ -92,6 +92,9 @@ class SeleniumScraper(Scraper):
 
         # exploring captcha breaker
         chrome_options = Options()
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--remote-debugging-port=9230")
         chrome_options.page_load_strategy = "eager"
         driver = uc.Chrome(options=chrome_options)
 
