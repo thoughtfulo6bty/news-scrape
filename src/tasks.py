@@ -5,6 +5,7 @@ from robocorp.tasks import get_output_dir, task
 from robocorp.workitems import inputs
 from core.application.scrape_news import ScrapeNews
 from core.domain.interfaces import Respository, Scraper
+from robocorp import log
 
 logging.basicConfig(
     filename=f"{get_output_dir()}/app.log",
@@ -57,7 +58,7 @@ def robot_scrape_news():
     Function to scrape news with parameters using robocorp decorator
     """
     payload = inputs.current.payload
-    print(payload)
+    log.info(payload)
 
     # mocked payload
     # payload = {'search_phrase': 'gemini', 'date_option': 0, 'section': 'all'}
