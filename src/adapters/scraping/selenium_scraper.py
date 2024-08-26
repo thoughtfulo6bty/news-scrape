@@ -7,7 +7,7 @@ import undetected_chromedriver as uc
 from robocorp.tasks import get_output_dir
 from RPA.Browser.Selenium import ElementNotFound, Selenium
 from RPA.HTTP import HTTP
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -189,12 +189,14 @@ class SeleniumScraper(Scraper):
                 image_path = get_output_dir() / f"results_{scrape_id}" / "thumbnails"
                 image_path.mkdir(exist_ok=True, parents=True)
 
-                # image_element = news.find_element(By.CSS_SELECTOR, Elements.IMAGE.value)
-                # image_url = image_element.get_attribute("src")
-                image_file = image_path / article_id
-                image_file = image_file.with_suffix(".png")
-
-                # self.http.download(image_url, image_file)
+                try:
+                    image_element = news.find_element(By.CSS_SELECTOR, Elements.IMAGE.value)
+                    image_url = image_element.get_attribute("src")
+                    image_file = image_path / article_id
+                    image_file = image_file.with_suffix(".png")
+                    self.http.download(image_url, image_file)
+                except NoSuchElementException:
+                    logging.warning('News without image.')
 
                 article = NewsArticle(
                     article_id=article_id,
