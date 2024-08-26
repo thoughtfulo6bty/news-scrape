@@ -49,22 +49,8 @@ class SeleniumScraper(Scraper):
         self.offset = "offset={}"
         self.base_url = "https://www.reuters.com/site-search/?query={}&section={}&{}&date=any_time&sort=newest"
         self.browser = Selenium()
-        self._driver = None
         self._http = None  # using another lib, like requests or urllib, because HTTP RPA slow download image
 
-    @property
-    def driver(self):
-        """
-        Initializes and returns the Selenium WebDriver with specific options if not already initialized.
-
-        Returns:
-            WebDriver: The initialized Selenium WebDriver instance.
-        """
-        if self._driver is None:
-            chrome_options = Options()
-            chrome_options.page_load_strategy = "eager"
-            self._driver = uc.Chrome(options=chrome_options)
-        return self._driver
 
     @property
     def http(self):
@@ -106,11 +92,16 @@ class SeleniumScraper(Scraper):
         url = self.base_url.format(query, section, offset)
 
         # exploring captcha breaker
-        browser_alias = "undetected_chrome"
-        self.browser.register_driver(driver=self.driver, alias=browser_alias)
-        self.browser.switch_browser(browser_alias)
-        self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
-        self.browser.go_to(url=url)
+        self.browser.open_available_browser(
+            url=url,
+            maximized=True,
+            headless=False,
+            options={
+                'capabilities': {
+                    "pageLoadStrategy": "eager"
+                }
+            }
+        )
 
         # exploring explict waits
         self.wait = WebDriverWait(self.browser.driver, 10)
