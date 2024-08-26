@@ -98,10 +98,10 @@ class SeleniumScraper(Scraper):
             options={
                 'capabilities': {
                     "pageLoadStrategy": "eager",
-                    "goog:chromeOptions": {
-                        "excludeSwitches": ["enable-automation"],
-                        "useAutomationExtension": False
-                    }
+                    # "goog:chromeOptions": {
+                    #     "excludeSwitches": ["enable-automation"],
+                    #     "useAutomationExtension": False
+                    # }
                 }
             }
         )
