@@ -1,0 +1,6 @@
+
+Collecting tasks from: src/tasks.py
+========================== Running: [96mrobot_scrape_news[0m ==========================
+[96mrobot_scrape_news[0m status: PASS
+================================================================================
+Robocorp Log (html): /home/murilo/Documentos/work/thoughtful/news-scrape/output/log.html
