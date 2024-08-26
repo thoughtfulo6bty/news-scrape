@@ -91,18 +91,26 @@ class SeleniumScraper(Scraper):
         url = self.base_url.format(query, section, offset)
 
         # exploring captcha breaker
-        chrome_options = Options()
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--remote-debugging-port=9230")
-        chrome_options.page_load_strategy = "eager"
-        driver = uc.Chrome(options=chrome_options)
+        self.browser.open_available_browser(
+            url=url,
+            maximized=True,
+            headless=False,
+            options={
+                'capabilities': {
+                    "pageLoadStrategy": "eager"
+                }
+            }
+        )
+        # chrome_options = Options()
 
-        browser_alias = "undetected_chrome"
-        self.browser.register_driver(driver=driver, alias=browser_alias)
-        self.browser.switch_browser(browser_alias)
-        self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
-        self.browser.go_to(url=url)
+        # chrome_options.page_load_strategy = "eager"
+        # driver = uc.Chrome(options=chrome_options)
+
+        # browser_alias = "undetected_chrome"
+        # self.browser.register_driver(driver=driver, alias=browser_alias)
+        # self.browser.switch_browser(browser_alias)
+        # self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
+        # self.browser.go_to(url=url)
 
         # exploring explict waits
         self.wait = WebDriverWait(self.browser.driver, 10)
