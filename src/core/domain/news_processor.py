@@ -12,7 +12,7 @@ def count_phrases(title: str, **kwargs: str) -> int:
     Returns:
         int: The total number of words in the title and, if provided, the description.
     """
-    description = kwargs.get('description', None)
+    description = kwargs.get("description", None)
     title_len = len(title.split())
     if description:
         return title_len + len(description.split())
@@ -27,27 +27,27 @@ def contains_money(title: str, **kwargs: str) -> bool:
 
     The function searches for patterns representing monetary values, either with or without
     a currency symbol (like "$" or "USD"). The recognized patterns are as follows:
-    
-    - Dollar sign ($) followed by 1 to 3 digits, optionally followed by a comma or dot and another 
-      set of 3 digits (as a thousand separator). This can be followed by an optional dot or comma 
+
+    - Dollar sign ($) followed by 1 to 3 digits, optionally followed by a comma or dot and another
+      set of 3 digits (as a thousand separator). This can be followed by an optional dot or comma
       and 1 to 2 digits (as a decimal separator).
         Example: "$100", "$1,000", "$1,000.50"
-    
-    - 1 to 3 digits optionally followed by a comma or dot and another set of 3 digits (as a 
-      thousand separator), followed by an optional dot or comma and 1 to 2 digits (as a decimal separator), 
+
+    - 1 to 3 digits optionally followed by a comma or dot and another set of 3 digits (as a
+      thousand separator), followed by an optional dot or comma and 1 to 2 digits (as a decimal separator),
       followed by a space and the currency ('dollars' or 'USD').
         Example: "100 dollars", "1,000 USD", "1,000.50 dollars", "$ 11,1", "$11,1", "$11", "$ 11"
 
     Args:
         title (str): The title of the text to check for monetary values.
-        **kwargs (str): Optional keyword arguments, particularly 'description' to include 
+        **kwargs (str): Optional keyword arguments, particularly 'description' to include
                         additional text in the check.
 
     Returns:
         bool: True if a money-related pattern is found, False otherwise.
-    """    
-    description = kwargs.get('description', None)
-    
+    """
+    description = kwargs.get("description", None)
+
     money_pattern = re.compile(
         r"""
         (                   # Start of a capturing group
@@ -65,9 +65,9 @@ def contains_money(title: str, **kwargs: str) -> bool:
         \s?                 # Optional space
         (dólares|USD)       # Currency specified as 'dollars' or 'USD'
         """,
-        re.VERBOSE | re.IGNORECASE
+        re.VERBOSE | re.IGNORECASE,
     )
 
     if description:
-        title = ' '.join([title, description]).strip()
+        title = " ".join([title, description]).strip()
     return bool(money_pattern.search(title))

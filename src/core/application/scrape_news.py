@@ -1,10 +1,9 @@
-from core.domain.interfaces import Scraper
-from core.domain.interfaces import Respository
-from core.domain.news_processor import contains_money, count_phrases
+import logging
 from datetime import date
 from typing import Tuple
 from uuid import uuid4
-import logging
+from core.domain.interfaces import Respository, Scraper
+from core.domain.news_processor import contains_money, count_phrases
 
 
 class ScrapeNews:
@@ -12,7 +11,6 @@ class ScrapeNews:
         self.scraper = scraper
         self.repository = repositoy
         self._scrape_id = None
-
 
     @property
     def scrape_id(self) -> str:
@@ -27,18 +25,17 @@ class ScrapeNews:
             str: A unique scrape ID.
         """
         if self._scrape_id is None:
-            self._scrape_id = str(uuid4()).split('-')[0]
+            self._scrape_id = str(uuid4()).split("-")[0]
         return self._scrape_id
 
-    
     def get_search_months(self, opt: int) -> Tuple[date, date]:
         """
-        Returns a tuple of two dates representing the first day of the earliest month 
+        Returns a tuple of two dates representing the first day of the earliest month
         and the first day of the latest month based on the specified number of months.
 
         The function calculates the start date of the first month and the last month in the range
-        of the given number of months. The `opt` parameter specifies how many months back from 
-        the current month should be considered. For example, if `opt` is 3 and the current month 
+        of the given number of months. The `opt` parameter specifies how many months back from
+        the current month should be considered. For example, if `opt` is 3 and the current month
         is August, it will return the first day of June and the first day of August.
 
         Args:
@@ -48,7 +45,7 @@ class ScrapeNews:
             Tuple[date, date]: A tuple containing two dates:
                 - The first date is the first day of the earliest month in the range.
                 - The second date is the first day of the latest month in the range.
-                
+
         Raises:
             ValueError: If `opt` is negative.
         """
@@ -64,30 +61,44 @@ class ScrapeNews:
             dates.append(today)
         dates = dates[::-1]
         return dates[0], dates[-1]
-    
 
-    def scrape_and_save(self, search_phrase: str, date_option: int, section: str = 'all'):
+    def scrape_and_save(
+        self, search_phrase: str, date_option: int, section: str = "all"
+    ):
+        """
+        Scrapes news articles based on a search phrase and a specified date range,
+        processes each article to determine if it contains financial information and
+        counts all phrases, then saves the processed articles.
+
+        Args:
+            search_phrase (str): The phrase to search for in news articles.
+            date_option (int): An integer representing the date range for the search.
+            section (str, optional): The section of the news to search in. Defaults to "all".
+
+        Returns:
+            None
+        """
         earliest_date, _ = self.get_search_months(date_option)
-        
-        logging.info(f'Scrape ID: {self.scrape_id}')
+
+        logging.info(f"Scrape ID: {self.scrape_id}")
 
         news_list = self.scraper.scrape_news(
             scrape_id=self.scrape_id,
             search_phrase=search_phrase,
             earliest_date=earliest_date,
-            section=section
+            section=section,
         )
 
-        
+        if not news_list:
+            logging.warning("No news scraped.")
+            return
 
-        # TODO: implements flow if not exists news
         for article in news_list:
-            article.contains_money = contains_money(title=article.title,
-                                                    description=article.description)
-            article.count_phrases = count_phrases(title=article.title,
-                                                    description=article.description)
-        
-        self.repository.save(news_list)
+            article.contains_money = contains_money(
+                title=article.title, description=article.description
+            )
+            article.count_phrases = count_phrases(
+                title=article.title, description=article.description
+            )
 
-
-    
+        self.repository.save(scrape_id=self.scrape_id, news_list=news_list)
