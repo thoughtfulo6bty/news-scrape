@@ -1,5 +1,5 @@
 import logging
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from enum import Enum
 from typing import List, Optional
 from uuid import uuid4
@@ -7,13 +7,11 @@ from robocorp.tasks import get_output_dir
 from RPA.Browser.Selenium import ElementNotFound, Selenium
 from RPA.HTTP import HTTP
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from core.domain.entities import NewsArticle
 from core.domain.interfaces import Scraper
-from selenium_stealth import stealth
 
 
 class Elements(Enum):
@@ -98,10 +96,6 @@ class SeleniumScraper(Scraper):
             options={
                 'capabilities': {
                     "pageLoadStrategy": "eager",
-                    "goog:chromeOptions": {
-                        "excludeSwitches": ["enable-automation"],
-                        "useAutomationExtension": False
-                    }
                 }
             }
         )
