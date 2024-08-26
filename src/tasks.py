@@ -55,7 +55,14 @@ def robot_scrape_news():
     """
     Function to scrape news with parameters using robocorp decorator
     """
-    scraper = get_scraper()
-    repository = get_repository()
-    scrape_app = ScrapeNews(scraper=scraper, repositoy=repository)
-    scrape_app.scrape_and_save("gemini", 2)
+    search_phrase = getenv('SEARCH_PHRASE')
+    date_option = int(getenv('DATE_OPTION', '0'))
+    section = getenv('SECTION', 'all')
+
+    if not search_phrase:
+        logging.error('Search phrase not defined. Breaking scrape.')
+    else:
+        scraper = get_scraper()
+        repository = get_repository()
+        scrape_app = ScrapeNews(scraper=scraper, repositoy=repository)
+        scrape_app.scrape_and_save(search_phrase, date_option, section)
