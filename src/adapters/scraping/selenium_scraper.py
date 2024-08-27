@@ -99,7 +99,7 @@ class SeleniumScraper(Scraper):
                 }
             }
         )
-        
+
         # chrome_options = Options()
 
         # chrome_options.page_load_strategy = "eager"
@@ -123,7 +123,7 @@ class SeleniumScraper(Scraper):
             )
         except TimeoutException:
             logging.error(f"No search result match the term: {search_phrase}")
-            logging.warning(self.browser.get_source())
+            self.browser.capture_page_screenshot('NSRMT-TOexcpetion.png')
             self.browser.close_browser()
             return
 
@@ -142,6 +142,7 @@ class SeleniumScraper(Scraper):
                 )
             except TimeoutException:
                 logging.error("Lazy page.")
+                self.browser.capture_page_screenshot('LP-TOexcpetion.png')
                 return
 
             news_list = self.browser.get_webelements(f"css:{Elements.NEWS_LIST.value}")
