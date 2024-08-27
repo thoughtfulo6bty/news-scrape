@@ -117,7 +117,7 @@ class SeleniumScraper(Scraper):
         chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.page_load_strategy = "eager"
 
-        driver = uc.Chrome(options=chrome_options)
+        driver = uc.Chrome(options=chrome_options, version_main=114)
 
         browser_alias = "uc"
         self.browser.register_driver(driver=driver, alias=browser_alias)
