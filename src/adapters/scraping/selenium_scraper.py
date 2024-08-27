@@ -12,6 +12,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from core.domain.entities import NewsArticle
 from core.domain.interfaces import Scraper
+import undetected_chromedriver as uc
+from selenium.webdriver.chrome.options import Options
+
 
 
 class Elements(Enum):
@@ -89,27 +92,32 @@ class SeleniumScraper(Scraper):
         url = self.base_url.format(query, section, offset)
 
         # exploring captcha breaker
-        self.browser.open_available_browser(
-            url=url,
-            maximized=True,
-            headless=False,
-            options={
-                'capabilities': {
-                    "pageLoadStrategy": "eager",
-                }
-            }
-        )
+        # self.browser.open_available_browser(
+        #     url=url,
+        #     maximized=True,
+        #     headless=False,
+        #     options={
+        #         'capabilities': {
+        #             "pageLoadStrategy": "eager",
+        #         }
+        #     }
+        # )
+        self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
 
-        # chrome_options = Options()
+        chrome_options = uc.ChromeOptions()
+        chrome_options.add_argument('--headless=new')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--window-size=1440,900')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--disable-web')
+        chrome_options.page_load_strategy = "eager"
 
-        # chrome_options.page_load_strategy = "eager"
-        # driver = uc.Chrome(options=chrome_options)
+        driver = uc.Chrome(options=chrome_options)
 
-        # browser_alias = "undetected_chrome"
-        # self.browser.register_driver(driver=driver, alias=browser_alias)
-        # self.browser.switch_browser(browser_alias)
-        # self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
-        # self.browser.go_to(url=url)
+        browser_alias = "uc"
+        self.browser.register_driver(driver=driver, alias=browser_alias)
+        self.browser.switch_browser(browser_alias)
+        self.browser.go_to(url=url)
 
         # exploring explict waits
         self.wait = WebDriverWait(self.browser.driver, 10)
@@ -123,7 +131,7 @@ class SeleniumScraper(Scraper):
             )
         except TimeoutException:
             logging.error(f"No search result match the term: {search_phrase}")
-            self.browser.capture_page_screenshot('NSRMT-TOexcpetion.png')
+            self.browser.capture_page_screenshot(str(get_output_dir()/'NSRMT-TOexcpetion.png'))
             self.browser.close_browser()
             return
 
@@ -142,7 +150,7 @@ class SeleniumScraper(Scraper):
                 )
             except TimeoutException:
                 logging.error("Lazy page.")
-                self.browser.capture_page_screenshot('LP-TOexcpetion.png')
+                self.browser.capture_page_screenshot(str(get_output_dir()/'LP-TOexcpetion.png'))
                 return
 
             news_list = self.browser.get_webelements(f"css:{Elements.NEWS_LIST.value}")
