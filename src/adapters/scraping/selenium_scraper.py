@@ -13,7 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from core.domain.entities import NewsArticle
 from core.domain.interfaces import Scraper
 import undetected_chromedriver as uc
-from selenium.webdriver.chrome.options import Options
+from datetime import timedelta
 
 
 
