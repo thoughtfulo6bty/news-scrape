@@ -15,3 +15,4 @@ dependencies:
     - robocorp-browser==2.3.3         # https://pypi.org/project/robocorp-browser
     - pandas==2.2.2                   # https://pandas.pydata.org/docs/index.html
     - undetected-chromedriver==3.5.5  # https://github.com/ultrafunkamsterdam/undetected-chromedriver
+    - PyVirtualDisplay==3.0           # https://github.com/ponty/pyvirtualdisplay

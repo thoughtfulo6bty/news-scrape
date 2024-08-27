@@ -14,6 +14,7 @@ from core.domain.entities import NewsArticle
 from core.domain.interfaces import Scraper
 import undetected_chromedriver as uc
 from datetime import timedelta
+from pyvirtualdisplay import Display
 
 
 
@@ -45,12 +46,16 @@ class SeleniumScraper(Scraper):
         http: Property to initialize and get the HTTP client.
         scrape_news: Scrapes news articles based on provided search parameters.
     """
+    display = Display(visible=0, size=(800, 600))
+    display.start()
 
     def __init__(self) -> None:
         self.offset = "offset={}"
         self.base_url = "https://www.reuters.com/site-search/?query={}&section={}&{}&date=any_time&sort=newest"
         self.browser = Selenium()
         self._http = None  # using another lib, like requests or urllib, because HTTP RPA slow download image
+
+
 
     @property
     def http(self):
@@ -89,6 +94,8 @@ class SeleniumScraper(Scraper):
         query = "+".join(search_phrase.split())
         offset = self.offset.format(0)
 
+    
+
         url = self.base_url.format(query, section, offset)
 
         # exploring captcha breaker
@@ -103,13 +110,11 @@ class SeleniumScraper(Scraper):
         #     }
         # )
         self.browser.set_selenium_implicit_wait(timedelta(seconds=50))
+        self.browser.set_selenium_speed(timedelta(seconds=1))
 
         chrome_options = uc.ChromeOptions()
-        chrome_options.add_argument('--headless=new')
         chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--window-size=1440,900')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--disable-web')
         chrome_options.page_load_strategy = "eager"
 
         driver = uc.Chrome(options=chrome_options)
